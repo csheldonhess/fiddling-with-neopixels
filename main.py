@@ -1,6 +1,7 @@
 import board
 import neopixel
 import time
+import random
  
 pixpin = board.D1
 numpix = 10
@@ -41,21 +42,11 @@ def rainbow_cycle(wait):
         time.sleep(wait)
  
 while True:
-    # make every LED on the strip red
-    strip.fill((255, 0, 0))
+
+    # make every LED on the strip the same random shade of purple
+    strip.fill((random.randrange(120, 200, 1), 0, random.randrange(120, 255, 1)))
     strip.write()
-    # sleep for 1 second(?)
-    time.sleep(1)
- 
-    # make every LED on the strip green
-    strip.fill((0, 255, 0))
-    strip.write()
-    time.sleep(1)
- 
-    # make every LED on the strip blue
-    strip.fill((0, 0, 255))
-    strip.write()
-    time.sleep(1)
+    time.sleep(2)
  
     # do the cool shifty rainbow
-    rainbow_cycle(0.001)    # rainbowcycle with 1ms delay per step
+    #rainbow_cycle(0.1)    # rainbowcycle with 1ms delay per step
