@@ -9,44 +9,27 @@ numpix = 10
 # brightness goes from 0 (no light) to 1.0 (full brightness)
 # auto_write=True makes it so you don't have to call strip.write()
 #   to change a value, but it makes thing slower(?) 
-strip = neopixel.NeoPixel(pixpin, numpix, brightness=0.3, auto_write=False)
+strip = neopixel.NeoPixel(pixpin, numpix, brightness=0.5, auto_write=False)
 
-# this is the code that makes the shifting rainbow
-# specifically, it figures out what the RGB values should be for cycling
-# it is gross
-# look at all those magic numbers
-# 85 is 255 / 3, if that helps at all?
-def wheel(pos):
-    # Input a value 0 to 255 to get a color value.
-    # The colours are a transition r - g - b - back to r.
-    if (pos < 0) or (pos > 255):
-        return (0, 0, 0)
-    if (pos < 85):
-        return (int(pos * 3), int(255 - (pos*3)), 0)
-    elif (pos < 170):
-        pos -= 85
-        return (int(255 - pos*3), 0, int(pos*3))
-    else:
-        pos -= 170
-        return (0, int(pos*3), int(255 - pos*3))
- 
-# this is the code that actually makes the rainbow cycling happen
-# it is ... slightly less gross?
-# why doesn't adafruit comment their example code?
-def rainbow_cycle(wait):
-    for j in range(255):
-        for i in range(len(strip)):
-            idx = int ((i * 256 / len(strip)) + j)
-            strip[i] = wheel(idx % 256)
-        strip.write()
-        time.sleep(wait)
- 
+# this will be used as in incrementor, to keep track of which neopixel
+#   we are currently looking at
+i = 0
+
+# this just turns off all of the neopixels to start
+# it is nice for making sure the code updated :)
+strip.fill((0, 0, 0))
+
 while True:
-
-    # make every LED on the strip the same random shade of purple
-    strip.fill((random.randrange(120, 200, 1), 0, random.randrange(120, 255, 1)))
+    # set the current LED to a random color of purple
+    # red is a random value between 120 and 255
+    # green is zero
+    # blue is a random value between 120 and 255
+    strip[i] = (random.randrange(120, 255, 1), 0, random.randrange(120, 255, 1))
     strip.write()
-    time.sleep(2)
- 
-    # do the cool shifty rainbow
-    #rainbow_cycle(0.1)    # rainbowcycle with 1ms delay per step
+    # wait a second 
+    time.sleep(1)
+    # move on to the next neopixel in the strip
+    i = i + 1
+    # if incrementing i took us past the end of the strip, go back to start
+    if i >= numpix:
+        i = 0
