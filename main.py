@@ -8,8 +8,8 @@ numpix = 10
  
 # brightness goes from 0 (no light) to 1.0 (full brightness)
 # auto_write=True makes it so you don't have to call strip.write()
-#   to change a value, but it makes thing slower(?) 
-strip = neopixel.NeoPixel(pixpin, numpix, brightness=0.5, auto_write=False)
+#   to change a value, but it makes things slower(?) 
+strip = neopixel.NeoPixel(pixpin, numpix, brightness=0.3, auto_write=False)
 
 # this will be used as in incrementor, to keep track of which neopixel
 #   we are currently looking at
